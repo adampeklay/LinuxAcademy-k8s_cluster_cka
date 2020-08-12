@@ -5,6 +5,35 @@ I started Linux Academy's CKA course and realized I didn't have a cluster setup.
 
 This is _not_ meant to be used in production anywhere, this is for educational purposes only.
 
+### repo layout
+```
+.
+|-- README.MD
+|-- common.yaml
+|-- group_vars
+|   |-- all.yaml
+|   `-- master.yaml
+|-- lab
+|   `-- inventory.ini
+|-- master.yaml
+|-- roles
+|   |-- common
+|   |   |-- tasks
+|   |   |   `-- main.yaml
+|   |   `-- templates
+|   |       `-- sudoers.j2
+|   |-- master
+|   |   `-- tasks
+|   |       `-- main.yaml
+|   `-- workers
+|       `-- tasks
+|           `-- main.yaml
+|-- site.yaml
+`-- workers.yaml
+
+10 directories, 12 files
+```
+
 ## Requirements
 - A Linux Academy account
 - A Mac or Linux laptop/desktop
@@ -113,11 +142,11 @@ adam@phobos:~/linux_academy_k8s_cluster_cka$
 There is a new token created each time the role is ran but they all are created with `TTLs` so no need to worry about that.  That is what the `changed=2` is above.  Its the `kubeadm init` token creation and ansible force writting that to /temp/kube_init_
 
 You can add another worker node, blow away some worker nodes & receate them and this role will join them to your cluster (i.e. the `-- limit workers` optional argument at the end of the `ansible-playbook` command we used to build the cluster).
-- You do have enough credits for 1 more server of the same type we built, however don't anything smaller as you will get errors.  That will just give you another worker in the cluster.  You'll need to update: `lab/inventory.ini`, `/etc/hosts` and `~/.ssh/config` with kube4 information, and copy the ssh key over.
+- You do have enough credits for 1 more server of the same type we built, however don't anything smaller as you will get errors.  That will just give you another worker node in the cluster.  You'll need to update: `lab/inventory.ini`, `/etc/hosts` and `~/.ssh/config` with kube4 information, and copy the ssh key over.
 
 
 ### Caveats:
-- when the cloud servers are powered off, your public ip changes.  You'll need to update /etc/hosts to reflect the changed IPs.
+- when the cloud servers are powered off, your public ip changes.  You'll need to update /etc/hosts to reflect the changed IPs.  You will have ssh fingerprint errors and you'll need to remove the offending lines in `~/.ssh/known_hosts`.
 - if your cloud servers are deleted, run the for loop above again.  You will have ssh fingerprint errors and you'll need to remove the offending lines in `~/.ssh/known_hosts`.  That is all though, just run the role again and your cluster will be spun up.
 - I did not pin the software versions for yum as Linux Academy did not instruct us to.  I want this to just work.
 

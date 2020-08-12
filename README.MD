@@ -128,7 +128,7 @@ johndoe12312c.mylabserver.com   Ready    <none>   31s   v1.18.6
 johndoe12313c.mylabserver.com   Ready    <none>   43s   v1.18.6
 [cloud_user@johndoe1231c ~]$
 ```
-Since we configured `/etc/.ssh/config`, you can ssh to each node via `ssh kube0`, `ssh kube1`, `ssh kube2`, etc.
+- Since we configured `$HOME/.ssh/config`, you can ssh to each node via `ssh kube0`, `ssh kube1`, `ssh kube2`, etc.
 
 Run it again if you want, it's idempotent.
 

@@ -88,7 +88,7 @@ Copy the ssh keys to the servers with this for loop.
 ```
 for i in kube{0..2}; do echo -e "\n### $i ###\n"; ssh-copy-id -i ~/.ssh/la_rsa.pub cloud_user@$i; done
 ```
-You will need to enter the current password twice (expand each of your cloud servers for the tempoary password), then set a new complex password.  Set them all identically, I recomend having text editor opened, copy and paste.
+You will need to enter the current password twice (expand each of your cloud servers for the tempoary password), then set a new complex password.  Set them all identically, I recommend having text editor opened, copy and paste.
 
 Add an evironment variable that contains the password you set for the cloud_user on all 3 servers in the step above.  This is so you don't get errors about a missing sudo password.  Edit your `~/.bashrc` or `~./bash_profile` and add this at the bottom of the file:
 ```

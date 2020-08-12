@@ -160,8 +160,8 @@ You can add another worker node, blow away some worker nodes & receate them and 
 
 
 ### Caveats:
-- when the cloud servers are powered off, your public ip changes.  You'll need to update /etc/hosts to reflect the changed IPs.  You will have ssh fingerprint errors and you'll need to remove the offending lines in `~/.ssh/known_hosts`.
-- if your cloud servers are deleted, run the for loop above again.  You will have ssh fingerprint errors and you'll need to remove the offending lines in `~/.ssh/known_hosts`.  That is all though, just run the role again and your cluster will be spun up.
+- When the cloud servers are powered off, your public ip changes.  You'll need to update /etc/hosts to reflect the changed IPs.  You will have ssh fingerprint errors and you'll need to remove the offending lines in `~/.ssh/known_hosts`.
+- If your cloud servers are deleted, run the for loop above again.  You will have ssh fingerprint errors and you'll need to remove the offending lines in `~/.ssh/known_hosts`.  That is all though, just run the role again and your cluster will be spun up.
 - I did not pin the software versions for yum as Linux Academy did not instruct us to.  I want this to just work.
 
 ### Something broke?  Choose an option below:

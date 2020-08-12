@@ -43,7 +43,6 @@ This is _not_ meant to be used in production anywhere, this is for educational p
 - Ansible version 2.9.11 on your desktop/laptop.  You'll most likely need to upgrade the version of Ansible if you already have it installed.  Possibly adding a new repository (for Linux users) or using `pip` (for mac users).
 - Use kube0, kube1 and kube2 in your /`etc/hosts` and `~/.ssh/config` file as seen below.
 
-
 ## Pre-flight tasks:
 
 Captian Obvious speaking:  clone this repo to your desktop/laptop.
@@ -159,13 +158,10 @@ You can add another worker node, blow away some worker nodes & receate them and 
 
 
 ### Caveats:
-
-
-### Caveats:
 - when the cloud servers are poweredz off, your public ip changes.  You'll need to update /etc/hosts to reflect the changed IPs.  You will have ssh fingerprint errors and you'll need to remove the offending lines in `~/.ssh/known_hosts`.
 - if your cloud servers are deleted, run the for loop above again.  You will have ssh fingerprint errors and you'll need to remove the offending lines in `~/.ssh/known_hosts`.  That is all though, just run the role again and your cluster will be spun up.
 - I did not pin the software versions for yum as Linux Academy did not instruct us to.  I want this to just work.
 
-### Something broke?
+### Something broke?  Choose an option below:
 - Create an issue
 - Fork my repo, fix it, test it, then create a PR.  I'll be more than happy to take a look.

@@ -3,6 +3,10 @@
 
 I started Linux Academy's CKA course and realized I didn't have a cluster setup.  The instructor mentioned that you build your cluster in the "Kubernetes Quickstart" course.  I looked at the manual steps I had to do on 3 servers, and here we are.
 
+I didn't create any tags (along with a few other things) as I didn't want to make this "production grade" so to speak (I'd use Terraform if that was the case, on a cloud provider) .  Again, this is just for studying for the CKA exam
+
+If there are additional reqiurements for the cluster as I progress in the CKA course via Linux Academy, I'll update this role. I believe I got about 10% done with the course before context switching over to this quick project.  I'll remove this comment once I complete the CKA course.
+
 This is _not_ meant to be used in production anywhere, this is for educational purposes only.
 
 ### repo layout
@@ -37,13 +41,18 @@ This is _not_ meant to be used in production anywhere, this is for educational p
 - A Linux Academy account
 - A Mac or Linux laptop/desktop
 - Ansible version 2.9.11 on your desktop/laptop.  You'll most likely need to upgrade the version of Ansible if you already have it installed.  Possibly adding a new repository (for Linux users) or using `pip` (for mac users).
-- Use kube0, kube1 and kube2 in your /`etc/hosts` and `~/.ssh/config` file as seen below.  I have a handy for-loop you can use to copy the ssh keys to the servers and the `inventory.ini` file is configured for that as well.
+- Use kube0, kube1 and kube2 in your /`etc/hosts` and `~/.ssh/config` file as seen below.
+
 
 ## Pre-flight tasks:
 
 Captian Obvious speaking:  clone this repo to your desktop/laptop.
 
-Spin up a total of **3** *CentOS 7* `Small: 2 unit(s) [~2 Virtual CPU, 2 GiB Memory]` servers in your Linux Academy Account - Cloud Playground.  That will give us **1** K8s master  node and **2** K8s worker nodes.  You can name them whatever you wish in Linux Academy but make sure you know which is the master and which are the workers.
+Spin up a total of 3 - CentOS 7 - `Small: 2 unit(s) [~2 Virtual CPU, 2 GiB Memory]` servers in your Linux Academy Account - Cloud Playground.
+
+Using smaller instances will result in errors.
+
+That will give us 1 K8s master  node and 2 K8s worker nodes.  You can name them whatever you wish in Linux Academy but make sure you know which is the master and which are the workers.
 
 ### While they are spinning up you can continue below:
 
@@ -75,7 +84,8 @@ Host kube2
   User cloud_user
   IdentityFile ~/.ssh/la_rsa
   ```
-Copy the ssh keys to the servers with this for loop
+Copy the ssh keys to the servers with this for loop.
+- Since this is a lab and due to the nature of the initial Ansible connection, I figured this would be the easiest route to get the cloud servers password changed and ssh keys copied quickly.
 ```
 for i in kube{0..2}; do echo -e "\n### $i ###\n"; ssh-copy-id -i ~/.ssh/la_rsa.pub cloud_user@$i; done
 ```
@@ -92,13 +102,16 @@ source .bashrc
 
 
 ## Usage
+
+
 ```
-user@laptop:~/linux_academy_k8s_cluster_cka$ ansible-playbook -i lab/inventory.ini site.yaml --extra-vars "ansible_sudo_pass=$LA_PASS"
+ansible-playbook -i lab/inventory.ini site.yaml --extra-vars "ansible_sudo_pass=$LA_PASS"
 ```
 
-If want to run this only against the master, append `--limit master` to the command above.
+Optional usage:
+- If want to run this only against the master, append `--limit master` to the command above.
 
-If you want to run this only against the workers, append `--limit workers` to the command above
+- If you want to run this only against the workers, append `--limit workers` to the command above
 
 When the role is done running all of the playbooks, your cluster is ready for you to use:
 ```
@@ -149,7 +162,7 @@ You can add another worker node, blow away some worker nodes & receate them and 
 
 
 ### Caveats:
-- when the cloud servers are powered off, your public ip changes.  You'll need to update /etc/hosts to reflect the changed IPs.  You will have ssh fingerprint errors and you'll need to remove the offending lines in `~/.ssh/known_hosts`.
+- when the cloud servers are poweredz off, your public ip changes.  You'll need to update /etc/hosts to reflect the changed IPs.  You will have ssh fingerprint errors and you'll need to remove the offending lines in `~/.ssh/known_hosts`.
 - if your cloud servers are deleted, run the for loop above again.  You will have ssh fingerprint errors and you'll need to remove the offending lines in `~/.ssh/known_hosts`.  That is all though, just run the role again and your cluster will be spun up.
 - I did not pin the software versions for yum as Linux Academy did not instruct us to.  I want this to just work.
 

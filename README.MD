@@ -3,7 +3,7 @@
 
 I started Linux Academy's CKA course and realized I didn't have a cluster setup.  The instructor mentioned that you build your cluster in the "Kubernetes Quickstart" course.  I looked at the manual steps I had to do on 3 servers, and here we are.
 
-I didn't create any tags (along with a few other things) as I didn't want to make this "production grade" so to speak (I'd use Terraform if that was the case, on a cloud provider) .  Again, this is just for studying for the CKA exam
+I didn't create any tags (along with a few other things) as I didn't want to make this "production grade" so to speak (I'd use Terraform if that was the case, on a cloud provider).  Again, this is just for studying for the CKA exam
 
 If there are additional reqiurements for the cluster as I progress in the CKA course via Linux Academy, I'll update this role. I believe I got about 10% done with the course before context switching over to this quick project.  I'll remove this comment once I complete the CKA course.
 

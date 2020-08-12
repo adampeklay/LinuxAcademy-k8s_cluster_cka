@@ -33,7 +33,6 @@ This is _not_ meant to be used in production anywhere, this is for educational p
 
 10 directories, 12 files
 ```
-
 ## Requirements
 - A Linux Academy account
 - A Mac or Linux laptop/desktop
@@ -142,7 +141,11 @@ adam@phobos:~/linux_academy_k8s_cluster_cka$
 There is a new token created each time the role is ran but they all are created with `TTLs` so no need to worry about that.  That is what the `changed=2` is above.  Its the `kubeadm init` token creation and ansible force writting that to /temp/kube_init_
 
 You can add another worker node, blow away some worker nodes & receate them and this role will join them to your cluster (i.e. the `-- limit workers` optional argument at the end of the `ansible-playbook` command we used to build the cluster).
+
 - You do have enough credits for 1 more server of the same type we built, however don't anything smaller as you will get errors.  That will just give you another worker node in the cluster.  You'll need to update: `lab/inventory.ini`, `/etc/hosts` and `~/.ssh/config` with kube4 information, and copy the ssh key over.
+
+
+### Caveats:
 
 
 ### Caveats:

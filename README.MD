@@ -49,7 +49,7 @@ Captian Obvious speaking:  clone this repo to your desktop/laptop.
 
 Spin up a total of 3 - CentOS 7 - `Small: 2 unit(s) [~2 Virtual CPU, 2 GiB Memory]` servers in your Linux Academy Account - Cloud Playground.
 
-Using smaller instances will result in errors.
+- Using smaller instances will result in errors.
 
 That will give us 1 K8s master  node and 2 K8s worker nodes.  You can name them whatever you wish in Linux Academy but make sure you know which is the master and which are the workers.
 

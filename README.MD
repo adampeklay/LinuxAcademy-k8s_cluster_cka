@@ -36,7 +36,7 @@ This is _not_ meant to be used in production anywhere, this is for educational p
 ## Requirements
 - A Linux Academy account
 - A Mac or Linux laptop/desktop
-- Ansible version 2.9.11 on your desktop/laptop.  You'll most likely need to upgrade the version of Ansible if you already have it installed.  Possibly adding a new repistory (for Linux users) or using `pip` (for mac users).
+- Ansible version 2.9.11 on your desktop/laptop.  You'll most likely need to upgrade the version of Ansible if you already have it installed.  Possibly adding a new repository (for Linux users) or using `pip` (for mac users).
 - Use kube0, kube1 and kube2 in your /`etc/hosts` and `~/.ssh/config` file as seen below.  I have a handy for-loop you can use to copy the ssh keys to the servers and the `inventory.ini` file is configured for that as well.
 
 ## Pre-flight tasks:
@@ -109,12 +109,12 @@ kube2                      : ok=18   changed=14   unreachable=0    failed=0    s
 
 user@laptop:~/linux_academy_k8s_cluster_cka$ ssh kube0
 Last login: Wed Aug 12 02:08:51 2020
-[cloud_user@adamp5121c ~]$ kubectl get nodes
+[cloud_user@johndoe1231~]$ kubectl get nodes
 NAME                         STATUS   ROLES    AGE   VERSION
-adamp5121c.mylabserver.com   Ready    master   92s   v1.18.6
-adamp5122c.mylabserver.com   Ready    <none>   31s   v1.18.6
-adamp5123c.mylabserver.com   Ready    <none>   43s   v1.18.6
-[cloud_user@adamp5121c ~]$
+johndoe12311c.mylabserver.com   Ready    master   92s   v1.18.6
+johndoe12312c.mylabserver.com   Ready    <none>   31s   v1.18.6
+johndoe12313c.mylabserver.com   Ready    <none>   43s   v1.18.6
+[cloud_user@johndoe1231c ~]$
 ```
 Run it again if you want, it's idempotent.
 
@@ -136,7 +136,7 @@ kube0                      : ok=18   changed=2    unreachable=0    failed=0    s
 kube1                      : ok=13   changed=0    unreachable=0    failed=0    skipped=5    rescued=0    ignored=0
 kube2                      : ok=13   changed=0    unreachable=0    failed=0    skipped=5    rescued=0    ignored=0
 
-adam@phobos:~/linux_academy_k8s_cluster_cka$
+user@laptop:~/linux_academy_k8s_cluster_cka$
 ```
 There is a new token created each time the role is ran but they all are created with `TTLs` so no need to worry about that.  That is what the `changed=2` is above.  Its the `kubeadm init` token creation and ansible force writting that to /temp/kube_init_
 

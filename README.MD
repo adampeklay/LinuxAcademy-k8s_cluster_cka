@@ -45,7 +45,7 @@ This is _not_ meant to be used in production anywhere, this is for educational p
 
 ## Pre-flight tasks:
 
-Captian Obvious speaking:  clone this repo to your desktop/laptop.
+Captain Obvious speaking:  clone this repo to your desktop/laptop.
 
 Spin up a total of 3 - CentOS 7 - `Small: 2 unit(s) [~2 Virtual CPU, 2 GiB Memory]` servers in your Linux Academy Account - Cloud Playground.
 
@@ -156,7 +156,7 @@ There is a new token created each time the role is ran but they all are created 
 
 You can add another worker node, blow away some worker nodes & receate them and this role will join them to your cluster (i.e. the `-- limit workers` optional argument at the end of the `ansible-playbook` command we used to build the cluster).
 
-- You do have enough credits for 1 more server of the same type we built, however don't create smaller instances (1 CPU for example) as you will get errors.  That will just give you another worker node in the cluster.  You'll need to update: `lab/inventory.ini`, `/etc/hosts` and `~/.ssh/config` with kube4 information, and copy the ssh key over.
+- You do have enough credits for 1 more server of the same type we built, however don't create smaller instances (1 CPU for example) as you will get errors.  That will just give you another worker node in the cluster.  You'll need to update: `lab/inventory.ini`, `/etc/hosts` and `~/.ssh/config` with kube3 information, and copy the ssh key over.
 
 
 ### Caveats:

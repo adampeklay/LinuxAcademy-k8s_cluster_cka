@@ -1,5 +1,5 @@
 ---
-- name: is kubelet already running?
+- name: idempotent check: is kubelet already running?
   shell: netstat -lt|grep 10250
   register: listen_result
   changed_when: no

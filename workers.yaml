@@ -1,0 +1,7 @@
+---
+- hosts: workers
+  remote_user: "{{ user }}"
+  become: yes
+
+  roles:
+    - workers

@@ -1,0 +1,7 @@
+---
+- hosts: master
+  remote_user: "{{ user }}"
+  become: yes
+
+  roles:
+    - master

@@ -1,0 +1,4 @@
+---
+- import_playbook: common.yaml
+- import_playbook: master.yaml
+- import_playbook: workers.yaml

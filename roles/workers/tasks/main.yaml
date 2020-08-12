@@ -1,0 +1,17 @@
+---
+- name: is kubelet already running?
+  shell: netstat -lt|grep 10250
+  register: listen_result
+  changed_when: no
+  ignore_errors: yes
+
+- name: Copy kubeadm join script from ansible host
+  copy:
+    src: /tmp/kubeadm_init
+    dest: /tmp/kubeadm_init
+    force: true
+  when: listen_result.rc == 1
+
+- name: Join worker nodes to cluster
+  shell: bash /tmp/kubeadm_init
+  when: listen_result.rc == 1

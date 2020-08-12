@@ -1,0 +1,46 @@
+---
+- name: create kube homedir files
+  file:
+    path: /home/{{ user }}/.kube
+    state: directory
+
+- name: check if cluster is already initialized
+  shell: kubeadm init --dry-run --pod-network-cidr="{{ kube_cidr }}"
+  register: kube_cluster_check
+  changed_when: no
+  ignore_errors: yes
+
+- name: initialize the cluster
+  shell: kubeadm init --pod-network-cidr="{{ kube_cidr }}"
+  when: kube_cluster_check.stdout.find('Your Kubernetes control-plane has initialized successfully') != -1
+
+- name: copy files for kube config
+  copy:
+    remote_src: yes
+    src: /etc/kubernetes/admin.conf
+    dest: /home/{{ user }}/.kube/config
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: "640"
+
+- name: check if flannel network is deployed already
+  become_user: "{{ user }}"
+  shell: kubectl apply --dry-run=client -f "{{ flannel_git }}"
+  register: flannel_check
+  ignore_errors: yes
+  changed_when: no
+
+- name: install flannel network
+  become_user: "{{ user }}"
+  shell: kubectl apply -f "{{ flannel_git }}"
+  when: flannel_check.stdout.find('configured') == -1
+
+- name: create cluster join file for workers and for additional/replacement workers
+  shell: kubeadm token create --print-join-command 2>/dev/null > /tmp/kubeadm_init
+
+- name: transfer kubeadmn join file to ansible host and change mode for execution
+  fetch:
+    src: /tmp/kubeadm_init
+    dest: /tmp/
+    mode: "755"
+    flat: yes

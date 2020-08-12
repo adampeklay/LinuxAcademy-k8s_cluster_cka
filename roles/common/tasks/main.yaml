@@ -1,0 +1,82 @@
+---
+- name: passwordless sudo for cloud user
+  template:
+    src: sudoers.j2
+    dest: /etc/sudoers.d/90-cloud-init-users
+    owner: root
+    group: root
+    mode: "440"
+
+- name: disable selinux as this is an ephemeral testing cluster
+  selinux:
+    state: disabled
+  register: selinux_state
+
+- name: disable swap in fstab, kubernetes needs swap disabled
+  lineinfile:
+    path: /etc/fstab
+    regexp: '.swap.*?'
+    state: absent
+
+- name: check ansible_facts to see if swap is active - turn it off if need be
+  shell: swapoff -a
+  when: ansible_facts['memory_mb']['swap']['total']|int > 0
+
+- name: reboot hosts if selinux was changed
+  reboot:
+    reboot_timeout: 180
+  when: selinux_state is changed
+
+- name: enable transparant masquerading and facilitate vxlan traffic for communication between pods in the cluster
+  modprobe:
+    name: br_netfilter
+    state: present
+
+- name: ensure ipv4 packets trasversing the network bridge are sent to itpables for processing
+  sysctl:
+    name: net.bridge.bridge-nf-call-iptables
+    value: "1"
+    state: present
+    reload: yes
+
+- name: add docker ce repo
+  yum_repository:
+    name: Docker
+    description: Docker for CentOS repo
+    baseurl: "{{ docker_repo }}"
+    repo_gpgcheck: no
+
+- name: add kubernetes repo
+  yum_repository:
+    name: Kubernetes
+    description: Google Kubernetes repo
+    baseurl: "{{ kube_repo }}"
+    repo_gpgcheck: no
+
+- name: install all required packages
+  yum:
+    name: "{{ packages }}"
+    update_cache: yes
+    disable_gpg_check: yes
+    state: installed
+
+- name: set cgroup driver for docker to systemd
+  lineinfile:
+    path: /usr/lib/systemd/system/docker.service
+    regexp: '(?=ExecStart).*'
+    line: "{{ docker_service_config }}"
+  register: cgroup_result
+
+- name: reload systemd when docker.service file is changed, needs to be ran now not later as a handler
+  systemd:
+    name: docker
+    daemon_reload: yes
+  when: cgroup_result.changed
+
+- name: start and enable daemons
+  systemd:
+    name: "{{ item }}"
+    enabled: yes
+    state: started
+  with_items:
+    - "{{ daemons }}"

@@ -1,0 +1,21 @@
+---
+user: cloud_user
+
+kube_repo: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+
+docker_repo: https://download.docker.com/linux/centos/7/x86_64/stable/
+
+packages:
+  - yum-utils
+  - device-mapper-persistent-data
+  - lvm2
+  - docker-ce
+  - kubelet
+  - kubeadm
+  - kubectl
+
+daemons:
+  - docker
+  - kubelet
+
+docker_service_config: "ExecStart=/usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock --exec-opt native.cgroupdriver=systemd"
